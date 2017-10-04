@@ -1,0 +1,19 @@
+<p-dataTable #dt [value]="value" [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="single" [(selection)]="selectedClient"
+  (onRowSelect)="onRowSelect($event)" [rowsPerPageOptions]="[10,20,30,40,50]" styleClass="apelList" >
+  <p-headerColumnGroup>
+    <p-row>
+      <p-column field="id" header="ID" [style]="{'width':'50px'}" sortable="true"></p-column>
+      <p-column field="varNo" header="Вариант"  [style]="{'width':'70px'}" sortable="true"></p-column>
+      <p-column header="Предмет"[style]="{'width':'70px'}"></p-column>  
+      <p-column header="Язык" [style]="{'width':'70px'}"></p-column>  
+      <p-column header="№ тестового задание" [style]="{'width':'70px'}"></p-column>
+      <p-column header="Мотивировка" [style]="{'width':'350px'}"></p-column>
+    </p-row>        
+  </p-headerColumnGroup>
+  <p-column field="id" [style]="{'text-align':'center'}"></p-column>
+  <p-column field="varNo" [style]="{'text-align':'center'}"></p-column>
+  <p-column field="subject.nameRus"></p-column>
+  <p-column field="lang.nameRus"></p-column>
+  <p-column field="questionNo" [style]="{'text-align':'center'}"></p-column>
+  <p-column field="apelDesc"></p-column>
+</p-dataTable>

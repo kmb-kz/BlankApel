@@ -1,0 +1,59 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <!--img src="app/images/new-logo.png" class="pull-left"/-->
+            <a class="navbar-brand" href="#">НЦТ</a>
+        </div>
+        <!--div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">КАЗ</a></li>
+                <li><a href="#">РУС</a></li>
+            </ul>
+        </div-->
+    </div>
+</nav>
+<div class="col-md-4 col-md-offset-4">
+    <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Авторизация</h3>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' " >
+                {{errorMessage}}
+            </div>
+            <form role="form" name="authForm" >
+                <fieldset>
+                    <div class="form-group">
+                        <select  name="oblSelect" class="form-control"   [(ngModel)]="oblSelect" (ngModelChange)="getRaionList($event)">     
+                            <option value="0" selected>Выбрать область</option>
+                            <option *ngFor="let obl of oblModel" [value]="obl.id">{{obl.id}}-{{obl.nameRus}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="raionSelect" [(ngModel)]="raionSelect" (ngModelChange)="getUsersList(oblSelect, raionSelect)"  >
+                            <option *ngFor="let raion of raionModel" [value]="raion.id">{{raion.id}}-{{raion.raionRus}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="userSelect" [(ngModel)]="userSelect">
+                            <option value="0">Выбрать ФИО</option>
+                            <option *ngFor="let user of userModel" >{{user.username}}</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Пароль" name="password" type="password" value="" [(ngModel)]="pass">
+                    </div>
+                    <button class="btn btn-lg btn-success btn-block" (click)="authUser(userSelect,pass)">Войти</button>
+                    <img *ngIf="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/> 
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

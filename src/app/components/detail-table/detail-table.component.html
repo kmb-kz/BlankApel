@@ -1,0 +1,22 @@
+<p-dataTable [value]="value" sortField="clientNameRus" rowGroupMode="subheader" groupField="clientNameRus" expandableRowGroups="true"
+        [sortableRowGroup]="false" >
+    <p-header>Cписок апелляции</p-header>
+    <template  pTemplate="rowgroupheader" let-rowData>{{rowData['clientNameRus']}} - {{rowData['status']}} </template>
+    <p-column field="id" header="ID" [style]="{'width':'50px'}"></p-column>
+    <p-column field="varNo" header="Вариант" [style]="{'width':'60px'}"></p-column>
+    <p-column field="typeTest" header="Тип тест-е" [style]="{'width':'100px'}"></p-column>    
+    <p-column field="subjectNameRus" header="Предмет" [style]="{'width':'120px'}"></p-column>
+    <p-column field="langNameRus" header="Язык" [style]="{'width':'80px'}"></p-column>
+    <p-column field="questionNo" header="№ вопроса" [style]="{'width':'70px'}"></p-column>
+    <p-column field="resultNameRus" header="Решение" [style]="{'width':'120px'}" ></p-column>
+    <p-column field="apelDesc" header="Мотивировка" ></p-column>
+    <p-column field="questionApelStatusNameRus" header="Статус" [style]="{'width':'100px'}"></p-column>   
+    
+    <p-column styleClass="col-button" >
+      <template let-apel="rowData" pTemplate="body" >
+            <button type="button" class="btn btn-primary btn-block" pButton (click)="selectApel(apel)">Отправить на повторное рассмотрение</button>
+      </template>
+    </p-column>
+    
+    
+</p-dataTable>

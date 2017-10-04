@@ -1,0 +1,101 @@
+<app-navbar-menu></app-navbar-menu>
+
+<div class="col-lg-2 col-md-2">
+  <form>
+    <div class="form-group">
+      <label>Клиент</label>
+      <select class="form-control" name="clientList" ([ngModel])="clientList" (change)="getClientListTable($event.target.value)" >
+        <option value="0">Выбрать клинета</option>
+        <option *ngFor="let cl of clientModel" [value]="cl.id" >{{cl.descr}}</option>           
+      </select>
+    </div>
+    <hr/>
+    <button type="button" class="btn btn-primary btn-block" (click)="showDialogAdd()" pButton label="Show"><i class="glyphicon glyphicon-plus"></i> Добавить </button>
+    <button type="button" class="btn btn-primary btn-block" (click)="showDialogEdit()"><i class="glyphicon glyphicon-edit"></i> Изменить </button>
+    <button type="button" class="btn btn-danger btn-block" (click)="showDialogDelete()"><i class="glyphicon glyphicon-remove"></i> Удалить </button>
+  </form>
+</div>
+<div class="col-lg-10 col-md-10">
+  <app-client-subject-table [value]="clientSubjectModel" (onSelectedRow)="onSelectedClient($event)"></app-client-subject-table>
+  <p-dialog header="Добавление эксперта" [(visible)]="displayAddClient" [style]="{'width':'30%'}">
+    <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' ">
+      {{errorMessage}}
+    </div>
+    <form role="form" name="clientForm" #userForm="ngForm">
+      <div class="form-group">
+        <label>Клиент</label>
+        <select class="form-control" name="clientList" ([ngModel])="clientList" #c>
+          <option value="0">Выбрать клинета</option>
+          <option *ngFor="let cl of clientModel" [value]="cl.id" >{{cl.descr}}</option>           
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Язык</label>
+        <select class="form-control" name="langList" ([ngModel])="langList" #l>
+          <option value="0">Выбрать язык</option>
+          <option *ngFor="let lm of langModel" [value]="lm.id" >{{lm.nameRus}}</option>           
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Дисциплина</label>
+        <select class="form-control" name="subjectList" ([ngModel])="subjectList" #s>
+          <option value="0">Выбрать клинета</option>
+          <option *ngFor="let sm of subjectModel" [value]="sm.id" >{{sm.nameRus}}</option>           
+        </select>
+      </div>
+      <div class="form-group">
+        <label>ФИО эксперта</label>
+        <input type="text" class="form-control" name="fioExpert" ([ngModel])="fioExpert" #fe/>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" name="infoActive" ([ngModel])="infoActive" #ia >Активно</label>
+      </div>
+      <p-footer>
+        <button type="button" class="btn btn-primary btn-md" (click)="addClientSubject(c.value,l.value,s.value,fe.value,ia.value)"
+          [disabled]="!userForm.form.valid">
+          <i class="glyphicon glyphicon-floppy-disk"></i>  Сохранить </button>
+        <button type="button" class="btn btn-primary btn-md" (click)="displayAddClientDialogClose()"><i class="glyphicon glyphicon-close "></i> Отменить </button>
+      </p-footer>
+    </form>
+  </p-dialog>
+
+  <p-dialog header="Изменение эксперта" [(visible)]="displayEditClient" [style]="{'width':'30%'}">
+    <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' ">
+      {{errorMessage}}
+    </div>
+    <form name="editClientForm">
+      <div class="form-group">
+        <label>ФИО эксперта</label>
+        <input type="text" class="form-control" name="fioExpertEdit" ([ngModel])="fioExpertEdit" [value]="fioExpertEdit" #fee/>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" name="infoActiveEdit" ([ngModel])="infoActiveEdit" [checked]="infoActiveEdit" #iae >Активно</label>
+      </div>
+       <p-footer>
+        <button type="button" class="btn btn-primary btn-md" (click)="editClientSubject(fee.value,iae.checked)">
+          <i class="glyphicon glyphicon-floppy-disk"></i>  Сохранить </button>
+        <button type="button" class="btn btn-primary btn-md" (click)="displayEditClientDialogClose()"><i class="glyphicon glyphicon-close "></i> Отменить </button>
+      </p-footer>
+    </form>
+  </p-dialog>
+
+
+  <p-dialog header="Удалить эксперта" [(visible)]="displayDeleteClient" [style]="{'width':'30%'}">
+    <div class="alert alert-danger" ([ngModel])="errorMessageDelete" *ngIf="errorMessageDelete != '' ">
+      {{errorMessageDelete}}
+    </div>
+    <form name="editClientForm">
+      <div class="form-group"> 
+          <span>Вы действительно хотите удалить эксперта: <b>{{fioExpertEdit}}</b> </span>
+      </div>      
+       <p-footer>
+        <button type="button" class="btn btn-primary btn-md" (click)="deleteClientSubject()">
+          <i class="glyphicon glyphicon-remove"></i>  Удалить </button>
+        <button type="button" class="btn btn-primary btn-md" (click)="displayDeleteClientDialogClose()"><i class="glyphicon glyphicon-close "></i> Отменить </button>
+      </p-footer>
+    </form>
+  </p-dialog>
+
+
+
+</div>

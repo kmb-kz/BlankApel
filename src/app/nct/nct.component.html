@@ -1,0 +1,92 @@
+<app-navbar-menu></app-navbar-menu>
+<div class="col-lg-2 col-md-2">
+  <form>
+    <div class="form-group">
+      <label>Дата потока</label>
+      <select class="form-control" name="datePtk" ([ngModel])="datePtk" (change)="getApelListDate($event.target.value)">
+        <option value="0">Выбрать дату</option>
+        <option *ngFor="let data of datePtkModel" [value]="data|date:'ddMMyyyy'" >{{data|date:'dd.MM.yyyy'}}</option>        
+      </select>
+    </div>
+    <hr/>
+    <!--div class="checkbox">
+      <label><input type="checkbox">Не показывать отправленные результаты апелляции</label>
+    </div>
+    <hr/-->
+    <button type="button" class="btn btn-primary btn-block" (click)="reloadInfo()"><i class="glyphicon glyphicon-refresh "></i>  Обновить данные </button>
+    <hr/>
+    <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' ">
+      {{errorMessage}}
+    </div>
+    <div class="alert alert-success" ([ngModel])="errorMessageCorrect" *ngIf="errorMessageCorrect != '' ">
+      {{errorMessageCorrect}}
+    </div>
+    <button type="button" class="btn btn-success btn-block" (click)="sendApelPackage()"><i class="glyphicon glyphicon-send "></i> Отправить</button>
+    <hr/>
+    <div class="checkbox">
+      <label><input type="checkbox" #res>Без решения</label>
+    </div>
+    <select class="form-control" name="clientList" ([ngModel])="clientList" #clientId>
+        <option value="0">Все клиенты</option>
+        <option *ngFor="let cl of clientModel" [value]="cl.id" >{{cl.descr}}</option>           
+    </select>
+    <button type="button" class="btn btn-success btn-block" (click)="printApelPackageNCT(clientId.value)"><i class="glyphicon glyphicon-print "></i> Печать</button>
+  </form>
+</div>
+<div class="col-lg-10 col-md-10">
+  <app-table [value]="listApelModel" [cols]="dataCols" (onSelectedRow)="onSelectedClient($event)"></app-table>
+  <br/>
+  <div class="alert alert-danger" ([ngModel])="errorMessageApelRep" *ngIf="errorMessageApelRep != '' ">
+    {{errorMessageApelRep}}
+  </div>
+  <app-detail-table [value]="listPackageApel" (onSelectedRow)="onSelectedApel($event)"></app-detail-table>
+
+
+  <div id="printForm">
+      <div *ngFor="let ai of apelInfo">
+        Предмет:{{ai.subject.nameRus}}
+        <div style="page-break-after: always;">
+        <table width="100%"  border="1" cellpadding="0" cellspacing="0">
+          <tr>
+            <td rowspan="3" style="text-align:center;">№</td>
+           
+            <td rowspan="3" style="text-align:center;">№ вар-та</td>
+            <td rowspan="3" style="text-align:center;">№ вопроса</td>
+            <td rowspan="3" style="text-align:center;">Ответ</td>
+            <td rowspan="3" style="text-align:center;">Код</td>
+            <td rowspan="3" style="text-align:center;">Балл по апелляции</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;">Апелляция</td>
+            <td colspan="2" style="text-align:center;">Результат рассмотрения</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;">Мотивировка</td>
+            <td style="text-align:center;">Обоснование</td>
+            <td style="text-align:center;">Результат</td>
+            <td style="text-align:center;">Пояснение к решению</td>
+          </tr>
+          <tbody *ngFor="let i of ai.contApels">
+            <tr style="text-align:center;">
+              <td>{{i.id}}</td>
+              
+              <td>{{i.varNo}}</td>
+              <td>{{i.questionNo}}</td>
+              <td>{{i.testAnswers}}</td>
+              <td>{{i.correctAnswers}}</td>
+              <td>{{i.testBall}} ( из {{i.maxBall}}) </td>
+              <td>{{i.questionApelType.nameRus}}</td>
+              <td>{{i.apelDesc}}</td>
+              <td><p *ngIf="!res.checked">{{i.questionApelResult.nameRus}}<p><p *ngIf="res.checked">Не задано<p></td>
+              <td><p *ngIf="!res.checked">{{i.resultDesc}}<p></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding-top: 17px;">
+            <b>Республикалық комиссия төрайымы (төрағасы)</b> &nbsp;&nbsp;&nbsp; ___________________________ {{ai.fio}}
+        </div>
+        </div>
+      </div>
+    </div>
+
+</div>

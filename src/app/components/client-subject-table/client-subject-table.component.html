@@ -1,0 +1,14 @@
+<p-dataTable [value]="value" selectionMode="single" [(selection)]="selectedClient" dataKey="id" (onRowSelect)="onRowSelect($event)">
+    <p-column field="id" header="ID" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="subject.nameRus" header="Предмет"></p-column>
+    <p-column field="lang.nameRus" header="Язык" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="teacherName" header="ФИО эксперта"></p-column>
+    <p-column field="isEnabled" header="Активно" [style]="{'text-align':'center'}">
+      
+    </p-column>
+    <p-footer>
+        <div style="text-align: left">Выбранный клиент: {{selectedClient ? selectedClient.id + ' - ' + selectedClient.subject.nameRus + ' - ' + selectedClient.teacherName
+            + ' - ' + selectedClient.lang.nameRus: 'не выбрано'}}</div>
+       
+    </p-footer>
+</p-dataTable>

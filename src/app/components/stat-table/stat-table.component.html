@@ -1,0 +1,20 @@
+<p-dataTable #dt [value]="value" styleClass="apelList" >
+  <p-header>Статистика</p-header>
+  <p-headerColumnGroup>
+    <p-row>
+      <p-column header="№ ВУЗ"></p-column>
+      <p-column header="Наименование ВУЗа" [style]="{'width':'600px'}"></p-column>
+      <p-column header="Поток"></p-column>
+      <p-column field="isStat" header="Статистика без учета апелляции" sortable="true"></p-column>
+      <p-column field="isApel" header="Статистика с учетом апелляции" sortable="true"></p-column>
+    </p-row>
+
+  </p-headerColumnGroup>
+  <p-column field="id" [style]="{'text-align':'center'}"></p-column>
+  <p-column field="name"></p-column>
+  <p-column field="potok" [style]="{'text-align':'center'}"></p-column>
+  <p-column field="isStat" [style]="{'text-align':'center'}">
+   
+  </p-column>
+  <p-column field="isApel" [style]="{'text-align':'center'}"></p-column>
+</p-dataTable>

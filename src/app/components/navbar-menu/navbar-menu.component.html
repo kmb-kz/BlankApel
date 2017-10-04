@@ -1,0 +1,28 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <span class="navbar-brand">НЦТ</span>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li [routerLinkActive]="['active']">
+                    <a [routerLink]="['/nct']" *ngIf="idRole == 1">Главная</a>
+                    <a [routerLink]="['/admin']" *ngIf="idRole == 2">Главная</a>
+                    <a [routerLink]="['/operator']" *ngIf="idRole == 3">Главная</a>
+                </li>
+                <li [routerLinkActive]="['active']" *ngIf="idRole == 1"><a [routerLink]="['/client_subject']">Распределение предметов</a></li> 
+                <li [routerLinkActive]="['stat']" *ngIf="idRole == 1"><a [routerLink]="['/stat']">Статистика</a></li> 
+                               
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+               
+                <li><a href="#" (click)="logout()" ><span class="glyphicon glyphicon-log-in"></span> Выход</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

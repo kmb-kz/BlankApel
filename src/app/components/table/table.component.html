@@ -1,0 +1,31 @@
+<p-dataTable #dt [value]="value" [rows]="20" [paginator]="true" [pageLinks]="3" selectionMode="single" [(selection)]="selectedClient"
+  (onRowSelect)="onRowSelect($event)" [rowsPerPageOptions]="[10,20,30,40,50]" styleClass="apelList">
+    <p-header>Cписок пакетов </p-header>
+    <p-headerColumnGroup>
+        <p-row>
+            <p-column field="idTestOrg" header="№ ВУЗ" rowspan="2" sortable="true"></p-column>
+            <p-column header="Наименование ВУЗа" rowspan="2" [style]="{'width':'600px'}"></p-column>
+            <p-column header="Поток" rowspan="2"></p-column>
+            <p-column field="importDate" header="Дата/Время принятия" rowspan="2" sortable="true"></p-column>
+            <p-column field="sendDate" header="Дата/Время отправки" rowspan="2" sortable="true"></p-column>
+            <p-column header="Апелляции" colspan="3"></p-column>
+            <p-column field="status" header="Статус" rowspan="2" sortable="true"></p-column>
+        </p-row>
+        <p-row>
+            <p-column field="finish"  header="Кол-во готов" [sortable]="true"></p-column>
+            <p-column field="noRaspr" header="Не распределено" sortable="true"></p-column>
+            <p-column field="raspr" header="Распределено" sortable="true"></p-column>
+        </p-row>
+        
+        
+    </p-headerColumnGroup>
+    <p-column field="idTestOrg" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="nameTestOrg"></p-column>
+    <p-column field="period" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="importDate" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="sendDate" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="finish" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="noRaspr" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="raspr" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="status" [style]="{'text-align':'center'}"></p-column>
+</p-dataTable>

@@ -1,0 +1,37 @@
+<app-navbar-menu></app-navbar-menu>
+<div class="col-lg-2 col-md-2">
+    <button type="button" class="btn btn-primary btn-block" (click)="restartInfo()"><i class="glyphicon glyphicon-refresh "></i>  Обновить данные </button>
+    <hr/>
+    <button type="button" class="btn btn-success btn-block" (click)="editApelResult()" [disabled]="!disableEditApel" ><i class="glyphicon glyphicon-pencil "></i>  Принять решение </button>
+</div>
+<div class="col-lg-10 col-md-10">
+    <app-table-operator [value]="listOperatorApel" (onSelectedRow)="onSelectedApel($event)"></app-table-operator>
+    <p-dialog header="Принять решение" [(visible)]="displayEditApel" [style]="{'width':'500px;'}" modal="modal" width="1000"
+        height="480" [responsive]="true">
+        <p><b>Вариант:</b> {{editApelVar}} &nbsp;&nbsp;&nbsp;<b>Предмет:</b> {{editApelSubject}}&nbsp;&nbsp;&nbsp;<b>Язык:</b>            {{editApelLang}}</p>
+        <p><b>№ тестового задание:</b> {{editApelNumVop}}</p>
+        <div class="alert alert-danger" ([ngModel])="errorMessageApel" *ngIf="errorMessageApel != '' ">
+            {{errorMessageApel}}
+        </div>
+        <form>
+            <div class="form-group">
+                <label>Выбрать решение</label>
+                <select class="form-control" name="questionApelResultList" ([ngModel])="questionApelResultList" #qA>                    
+                    <option *ngFor="let qr of questionApelResultList" [value]="qr.id" [selected]="qr.id == 0" >{{qr.nameRus}}</option>           
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Обоснование решиения</label><br/>
+                <textarea cols="130" rows="5" ([ngModel])="descResult" #dr maxlength="200"></textarea>
+            </div>
+        </form>
+        <p-footer>
+            <button type="button" class="btn btn-primary btn-md" (click)="setResultApel(qA.value,dr.value)">
+                <i class="glyphicon glyphicon-floppy-disk"></i>  Передать апелляции по предмету на подпись </button>
+            <button type="button" class="btn btn-primary btn-md" (click)="displayEditApelClose()"><i class="glyphicon glyphicon-close "></i> Отменить </button>
+        </p-footer>
+    </p-dialog>
+
+
+
+</div>

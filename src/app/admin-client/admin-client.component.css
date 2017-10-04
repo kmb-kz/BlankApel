@@ -1,0 +1,12 @@
+#printForm2 {
+    display: none;
+}
+#printForm2 span{
+    text-decoration: underline;
+}
+#printForm2 table{
+    font-size:24px; 
+}
+#printForm{
+    display: none;
+}

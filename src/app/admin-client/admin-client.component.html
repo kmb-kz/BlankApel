@@ -1,0 +1,187 @@
+<app-navbar-menu></app-navbar-menu>
+<div class="col-lg-2 col-md-2">
+  <form>
+    <div class="form-group">
+      <label>Дата потока</label>
+      <select class="form-control" name="datePtk" ([ngModel])="datePtk" (change)="getApelListDate($event.target.value)">
+        <option value="0">Выбрать дату</option>
+        <option *ngFor="let data of datePtkModel" [value]="data|date:'ddMMyyyy'" >{{data|date:'dd.MM.yyyy'}}</option>        
+      </select>
+    </div>
+    <hr/>
+    <!--div class="checkbox">
+      <label><input type="checkbox">Не показывать отправленные результаты апелляции</label>
+    </div>
+    <hr/-->
+    <button type="button" class="btn btn-primary btn-block" (click)="reloadInfo()"><i class="glyphicon glyphicon-refresh "></i>  Обновить данные </button>
+
+    <hr/>
+    <div class="form-group">
+      <label>Отчеты</label>
+      <button type="button" class="btn btn-success btn-block" (click)="printForm2()"><i class="glyphicon glyphicon-print "></i>  Распечатать "Форма 2" </button>
+    </div>
+    <hr/>
+    <div class="form-group">
+      <button type="button" class="btn btn-success btn-block" (click)="printListApel()"><i class="glyphicon glyphicon-print "></i> Список апелляций </button>
+    </div>
+    <hr/>
+    <div class="form-group">
+      <button type="button" class="btn btn-danger btn-block" (click)="sendApelPackage()" *ngIf="sendButton">Передать на рассмотрение</button>
+    </div>
+  </form>
+</div>
+<div class="col-lg-10 col-md-10">
+  <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' ">
+    {{errorMessage}}
+  </div>
+  <app-table-admin [value]="listApelModel" [cols]="dataCols" (onSelectedRow)="onSelectedClient($event)"></app-table-admin>
+  <div>
+    <div id="printForm2">
+      <table width="100%" *ngFor="let fi of apelInfo" style="page-break-after: always;">
+        <tr>
+          <td colspan="2" style="text-align:center">
+            <h3 style="font-size: 24px;">Республикалық комиссия қорытындысы</h3>
+            <h3 style="font-size: 24px;">Решение Республиканской комиссии</h3>
+            <br/><br/>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td align="right">
+           <span style="text-decoration:underline; font-size: 24px;">"{{day}}"</span>&nbsp;&nbsp;&nbsp;<b style="font-size: 24px;">{{mouthInfoForm}} {{year}} ж.</b>
+           <br/><br/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span style="text-decoration:underline; font-size: 24px;">Есеп нөмірі: {{fi.apelPackageId}}</span>
+            <br/> <br/>
+          </td>
+          <td align="right">
+            <span style="text-decoration:underline; font-size: 24px;">Хабарлама нөмірі: {{fi.id}}</span>
+            <br/> <br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">1. Пән (Предмет) </b>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="text-decoration:underline; font-size: 21px;">{{fi.subject.nameRus}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-size: 24px;">Тілі (Язык) </b>&nbsp;&nbsp;&nbsp;&nbsp; <span style="text-decoration:underline; font-size: 21px;">{{fi.lang.nameRus}}</span>
+            <br/> <br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">2. Нұсқа және сұрақ нөмірі</b>&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-decoration:underline; font-size: 20px;">{{fi.varNo}} №{{fi.questionNo}}</span><br/>
+            <b style="padding-left:15px;font-size: 24px;">№ варианта и вопроса &nbsp;&nbsp;&nbsp;&nbsp; </b>
+            <span style="font-size: 20px;">ЖП жауабы/ответ на ЛО: {{fi.testAnswers}}</span><br/>
+            <span style="padding-left:280px;font-size: 20px; ">Дұрыс жауабы/прав. ответ: {{fi.correctAnswers}}</span>
+            <br/> <br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">3. Апелляцияға берілу себебі:&nbsp;&nbsp;&nbsp;&nbsp;</b> 
+            <span style="font-size: 20px;">{{fi.questionApelType.nameKaz}}</span>
+            <p style="padding-bottom:70px; font-size: 24px;"></p>
+
+
+            <b style="padding-left:15px; font-size: 24px;">Причина аппеляции:</b>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="font-size: 20px;">{{fi.apelDesc}}</span>
+            <p style="padding-bottom:70px;"></p>
+            <br/> <br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">4. Тексеру нәтижесі, түрнұсқаға сілтеме:</b><br/>
+            <b style="padding-left:17px; font-size: 24px;">Результат проверки, ссылка на источник:</b>
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/>______________________________________________________________________________________________________________________________
+            <br/><br/><br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">5. Комиссия шешімі:</b><br/>
+            <b style="padding-left:17px;font-size: 24px;">Решение комиссии:</b>____________________________________________________________________
+            <br/><br/> <br/><br/>
+
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">Республикалық комиссия төрайымы (төрағасы):</b> _____________ <span style="text-decoration:underline; font-size: 20px;">{{fi.fio}}</span>
+            <br/><br/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <b style="font-size: 24px;">Комиссия мүшелері:</b> 
+            
+            <br/><br/> <br/><br/>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div>
+    <div id="printForm">
+      <div *ngFor="let ai of singleApelInfo">
+        Предмет:{{ai.subject.nameRus}}
+        <div style="page-break-after: always;">
+        <table width="100%"  border="1" cellpadding="0" cellspacing="0">
+          <tr>
+            <td rowspan="3" style="text-align:center;">№</td>
+           
+            <td rowspan="3" style="text-align:center;">№ вар-та</td>
+            <td rowspan="3" style="text-align:center;">№ вопроса</td>
+            <td rowspan="3" style="text-align:center;">Ответ</td>
+            <td rowspan="3" style="text-align:center;">Код</td>
+            <td rowspan="3" style="text-align:center;">Балл по апелляции</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center;">Апелляция</td>
+            <td colspan="2" style="text-align:center;">Результат рассмотрения</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;">Мотивировка</td>
+            <td style="text-align:center;">Обоснование</td>
+            <td style="text-align:center;">Результат</td>
+            <td style="text-align:center;">Пояснение к решению</td>
+          </tr>
+          <tbody *ngFor="let i of ai.contApels">
+            <tr style="text-align:center;">
+              <td>{{i.id}}</td>
+              
+              <td>{{i.varNo}}</td>
+              <td>{{i.questionNo}}</td>
+              <td>{{i.testAnswers}}</td>
+              <td>{{i.correctAnswers}}</td>
+              <td>{{i.testBall}} ( из {{i.maxBall}}) </td>
+              <td>{{i.questionApelType.nameRus}}</td>
+              <td>{{i.apelDesc}}</td>
+              <td>{{i.questionApelResult.nameRus}}</td>
+              <td>{{i.resultDesc}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding-top: 17px;">
+            <b>Республикалық комиссия төрайымы (төрағасы)</b> &nbsp;&nbsp;&nbsp; ___________________________ Нарбекова Б.М.
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<app-navbar-menu></app-navbar-menu>
+<div class="col-lg-2 col-md-2">
+  <form>
+    <div class="form-group">
+      <label>Дата потока</label>
+      <select class="form-control" name="datePtk" ([ngModel])="datePtk" (change)="getStatInfo($event.target.value)">
+        <option value="0">Выбрать дату</option>
+        <option *ngFor="let data of datePtkModel" [value]="data|date:'ddMMyyyy'" >{{data|date:'dd.MM.yyyy'}}</option>        
+      </select>
+    </div>
+    <hr/>
+    <button type="button" class="btn btn-primary btn-block" (click)="reloadInfo()"><i class="glyphicon glyphicon-refresh "></i>  Обновить данные </button>
+  </form>
+</div>
+<div class="col-lg-10 col-md-10">
+  <div class="alert alert-danger" ([ngModel])="errorMessage" *ngIf="errorMessage != '' ">
+    {{errorMessage}}
+  </div>
+  <app-stat-table [value]="statInfo"></app-stat-table>
+</div>
